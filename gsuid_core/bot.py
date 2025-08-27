@@ -1,32 +1,32 @@
 import asyncio
 import inspect
-from typing import Dict, List, Union, Literal, Optional
+from typing import Dict, List, Literal, Optional, Union
 
 from fastapi import WebSocket
 from msgspec import json as msgjson
 
-from gsuid_core.logger import logger
-from gsuid_core.gs_logger import GsLogger
 from gsuid_core.global_val import get_global_val
+from gsuid_core.gs_logger import GsLogger
+from gsuid_core.load_template import (
+    button_templates,
+    custom_buttons,
+    parse_button,
+)
+from gsuid_core.logger import logger
 from gsuid_core.message_models import Button, ButtonType
 from gsuid_core.models import Event, Message, MessageSend
-from gsuid_core.load_template import (
-    parse_button,
-    custom_buttons,
-    button_templates,
-)
-from gsuid_core.utils.plugins_config.gs_config import (
-    sp_config,
-    core_plugins_config,
-    send_security_config,
-)
 from gsuid_core.segment import (
     MessageSegment,
-    to_markdown,
+    check_same_buttons,
     convert_message,
     is_split_button,
-    check_same_buttons,
     markdown_to_template_markdown,
+    to_markdown,
+)
+from gsuid_core.utils.plugins_config.gs_config import (
+    core_plugins_config,
+    send_security_config,
+    sp_config,
 )
 
 button_row_num: int = sp_config.get_config('ButtonRow').data
